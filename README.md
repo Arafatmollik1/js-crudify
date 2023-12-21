@@ -81,7 +81,7 @@ test.js is included to demonstrate how to test CRUD operations using Crudify. To
 ```
 node test.js
 ```
-Make sure to configure your database details in test.js or use environment variables as described in the configuration section.
+For convinience you can just create a table in your database called 'webuser' and just run the code and see the console log in your backend to see what is happening!
 
 Contributing
 Contributions to improve Crudify are welcome. Please fork the repository and submit a pull request with your changes.
