@@ -22,7 +22,7 @@ Crudify is a Node.js package designed to simplify Create, Read, Update, and Dele
 Clone the repository and navigate into the project directory:
 
 ```
-git clone [https://github.com/yourusername/crudify.git](https://github.com/Arafatmollik1/js-crudify.git)
+git clone https://github.com/Arafatmollik1/js-crudify.git
 cd crudify
 ```
 
