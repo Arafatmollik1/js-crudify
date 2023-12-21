@@ -2,7 +2,7 @@ const config = require('./config');
 const Helpers = require('./helpers');
 
 class Crudify {
-  static activeConnectionName = null; // Property to store active connection name
+  static activeConnectionName = null;
 
   static config(dbConfig) {
     return config.setup(dbConfig);
@@ -11,6 +11,7 @@ class Crudify {
   static ready(connectionName) {
     Crudify.activeConnectionName = connectionName;
   }
+
   static die(connectionName) {
     const connection = config.getConnection(connectionName);
     if (!connection) {
@@ -33,90 +34,120 @@ class Crudify {
   }
 
   static create(data) {
-    return {
-      into: async (tableName) => {
-        Helpers.validateIdentifier(tableName);
-        const keys = Object.keys(data).join(', ');
-        const values = Helpers.escapeValues(data).join(', ');
-        const query = `INSERT INTO ${tableName} (${keys}) VALUES (${values})`;
-        console.log(query);
-        const connectionName = Crudify.getConnectionName();
-        const connection = config.getConnection(connectionName);
-        return new Promise((resolve, reject) => {
-          connection.query(query, (error, results) => {
-            if (error) reject(error);
-            else resolve(results);
-          });
-        });
-      }
-    };
+    const queryBuilder = new QueryBuilder();
+    return queryBuilder.create(data);
   }
 
   static read(columns) {
-    return {
-      where: (condition) => {
-        return {
-          from: async (tableName) => {
-            Helpers.validateIdentifier(tableName);
-            const query = `SELECT ${columns} FROM ${tableName} WHERE ${condition}`;
-            console.log(query);
-            const connectionName = Crudify.getConnectionName();
-            const connection = config.getConnection(connectionName);
-            return new Promise((resolve, reject) => {
-              connection.query(query, (error, results) => {
-                if (error) reject(error);
-                else resolve(results);
-              });
-            });
-          }
-        };
-      }
-    };
+    const queryBuilder = new QueryBuilder();
+    return queryBuilder.read(columns);
   }
 
   static update(data) {
-    return {
-      from: (tableName) => {
-        return {
-          where: async (condition) => {
-            Helpers.validateIdentifier(tableName);
-            const updates = Helpers.buildSetClause(data);
-            const query = `UPDATE ${tableName} SET ${updates} WHERE ${condition}`;
-            console.log(query);
-            const connectionName = Crudify.getConnectionName();
-            const connection = config.getConnection(connectionName);
-            return new Promise((resolve, reject) => {
-              connection.query(query, (error, results) => {
-                if (error) reject(error);
-                else resolve(results);
-              });
-            });
-          }
-        };
-      }
-    };
+    const queryBuilder = new QueryBuilder();
+    return queryBuilder.update(data);
   }
 
   static delete() {
-    return {
-      where: (condition) => {
-        return {
-          from: async (tableName) => {
-            Helpers.validateIdentifier(tableName);
-            const query = `DELETE FROM ${tableName} WHERE ${condition}`;
-            console.log(query);
-            const connectionName = Crudify.getConnectionName();
-            const connection = config.getConnection(connectionName);
-            return new Promise((resolve, reject) => {
-              connection.query(query, (error, results) => {
-                if (error) reject(error);
-                else resolve(results);
-              });
-            });
-          }
-        };
-      }
-    };
+    const queryBuilder = new QueryBuilder();
+    return queryBuilder.delete();
+  }
+}
+
+class QueryBuilder {
+  constructor() {
+    this.query = '';
+    this.type = '';
+  }
+
+  create(data) {
+    this.type = 'INSERT';
+    this.data = data;
+    return this;
+  }
+
+  read(columns) {
+    this.type = 'SELECT';
+    this.columns = columns;
+    return this;
+  }
+
+  update(data) {
+    this.type = 'UPDATE';
+    this.data = data;
+    return this;
+  }
+
+  delete() {
+    this.type = 'DELETE';
+    return this;
+  }
+
+  where(condition) {
+    this.condition = condition;
+    return this;
+  }
+
+  from(tableName) {
+    this.tableName = tableName;
+    return this;
+  }
+
+  into(tableName) {
+    this.tableName = tableName;
+    return this;
+  }
+
+  async execute() {
+    let query = '';
+    Helpers.validateIdentifier(this.tableName);
+
+    const connectionName = Crudify.getConnectionName();
+    const connection = config.getConnection(connectionName);
+    if (!connection) {
+      throw new Error(`No connection found for name: ${connectionName}`);
+    }
+
+    switch (this.type) {
+      case 'INSERT':
+        const keys = Object.keys(this.data).join(', ');
+        const values = Helpers.escapeValues(this.data).join(', ');
+        query = `INSERT INTO ${this.tableName} (${keys}) VALUES (${values})`;
+        break;
+      case 'SELECT':
+        query = `SELECT ${this.columns} FROM ${this.tableName}`;
+        if (this.condition) {
+          query += ` WHERE ${this.condition}`;
+        }
+        break;
+      case 'UPDATE':
+        const updates = Helpers.buildSetClause(this.data);
+        query = `UPDATE ${this.tableName} SET ${updates}`;
+        if (this.condition) {
+          query += ` WHERE ${this.condition}`;
+        }
+        break;
+      case 'DELETE':
+        query = `DELETE FROM ${this.tableName}`;
+        if (this.condition) {
+          query += ` WHERE ${this.condition}`;
+        }
+        break;
+      default:
+        throw new Error('Invalid query type');
+    }
+
+    return new Promise((resolve, reject) => {
+      connection.query(query, (error, results) => {
+        if (error) {
+          console.error('Error executing query:', error);
+          reject(error);
+        } else {
+          console.log('Query executed successfully:', query);
+          resolve(results);
+        }
+      });
+    });
   }
 }
 

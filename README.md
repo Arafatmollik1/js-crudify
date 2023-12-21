@@ -55,16 +55,16 @@ Perform CRUD operations:
 javascript
 ```
 // Create example
-await Crudify.create({ column1: 'value1' }).into('tableName');
+await Crudify.create({ column1: 'value1' }).into('tableName').execute();
 
 // Read example
-await Crudify.read('*').where('condition').from('tableName');
+await Crudify.read('*').where('condition').from('tableName').execute();
 
 // Update example
-await Crudify.update({ column1: 'newValue' }).from('tableName').where('condition');
+await Crudify.update({ column1: 'newValue' }).from('tableName').where('condition').execute();
 
 // Delete example
-await Crudify.delete().where('condition').from('tableName');
+await Crudify.delete().where('condition').from('tableName').execute();
 ```
 
 ## Testing

@@ -26,7 +26,7 @@ async function testCreate() {
         usertype: 'a'
       };
   
-      const result = await Crudify.create(data).into('webuser');
+      const result = await Crudify.create(data).into('webuser').execute();
       console.log('Create Result:', result);
     } catch (error) {
       console.error('Error:', error);
@@ -36,7 +36,7 @@ async function testCreate() {
   // Read
   async function testRead() {
     try {
-      const result = await Crudify.read('*').where('1').from('webuser');
+      const result = await Crudify.read('*').from('webuser').execute();
       console.log('Read Result:', result);
     } catch (error) {
       console.error('Error:', error);
@@ -50,7 +50,7 @@ async function testCreate() {
         usertype: 'b'
       };
   
-      const result = await Crudify.update(newData).from('webuser').where("email = 'fromcrudify@crudify.com'");
+      const result = await Crudify.update(newData).from('webuser').where("email = 'fromcrudify@crudify.com'").execute();
       console.log('Update Result:', result);
     } catch (error) {
       console.error('Error:', error);
@@ -60,7 +60,7 @@ async function testCreate() {
   // Delete
   async function testDelete() {
     try {
-      const result = await Crudify.delete().where("email = 'fromcrudify@crudify.com'").from('webuser');
+      const result = await Crudify.delete().from('webuser').where("email = 'fromcrudify@crudify.com'").execute();
       console.log('Delete Result:', result);
     } catch (error) {
       console.error('Error:', error);
