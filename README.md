@@ -19,16 +19,8 @@ Crudify is a Node.js package designed to simplify Create, Read, Update, and Dele
 
 ### Installation
 
-Clone the repository and navigate into the project directory:
-
 ```
-git clone https://github.com/Arafatmollik1/js-crudify.git
-cd crudify
-```
-
-### Install the necessary dependencies:
-```
-npm install
+npm install js-crudify
 ```
 
 ### Configuration
