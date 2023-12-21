@@ -83,7 +83,7 @@ node test.js
 ```
 For convinience you can just create a table in your database called 'webuser' and just run the code and see the console log in your backend to see what is happening!
 
-Contributing
+### Contributing
 Contributions to improve Crudify are welcome. Please fork the repository and submit a pull request with your changes.
 
 License
