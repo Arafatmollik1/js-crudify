@@ -1,28 +1,27 @@
 {
-    "name": "js-crudify",
-    "version": "1.0.0",
-    "description": "A simple CRUD operation package for Node.js or other js backend",
-    "main": "index.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/Arafatmollik1/js-crudify.git"
-    },
-    "keywords": [
-      "crud",
-      "database",
-      "nodejs"
-    ],
-    "author": "Mohammod Arafat Mollik",
-    "license": "ISC",
-    "bugs": {
-      "url": "https://github.com/Arafatmollik1/js-crudify/issues"
-    },
-    "homepage": "https://github.com/Arafatmollik1/js-crudify#readme",
-    "dependencies": {
-      "mysql": "^2.18.1"
-    }
+  "name": "js-crudify",
+  "version": "1.0.0",
+  "description": "A simple CRUD operation package for Node.js or other js backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arafatmollik1/js-crudify.git"
+  },
+  "keywords": [
+    "crud",
+    "database",
+    "nodejs"
+  ],
+  "author": "Mohammod Arafat Mollik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arafatmollik1/js-crudify/issues"
+  },
+  "homepage": "https://github.com/Arafatmollik1/js-crudify#readme",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
 }
-  
