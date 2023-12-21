@@ -1,4 +1,4 @@
-# js-crudify
+
 # js-crudify
 
 Crudify is a Node.js package designed to simplify Create, Read, Update, and Delete (CRUD) operations in JavaScript backends. It abstracts the complexity of direct database interactions, offering a streamlined way to interact with databases.
