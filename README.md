@@ -21,6 +21,83 @@ Crudify is a Node.js package designed to simplify Create, Read, Update, and Dele
 
 Clone the repository and navigate into the project directory:
 
-```bash
+```
 git clone https://github.com/yourusername/crudify.git
-cd crudify```
+cd crudify
+```
+
+### Install the necessary dependencies:
+```
+npm install
+```
+
+### Configuration
+Configure the database connection details in the .env file:
+```
+DB_HOST=localhost
+DB_USER=yourusername
+DB_PASSWORD=yourpassword
+DB_DATABASE=yourdatabase
+```
+Replace the values with your actual database credentials.
+
+### Usage
+Import and configure Crudify in your project:
+
+```
+const Crudify = require('crudify');
+
+Crudify.config({
+  name: 'myDatabaseConnection',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
+});
+
+Crudify.ready('myDatabaseConnection');
+```
+
+Perform CRUD operations:
+
+javascript
+```
+// Create example
+await Crudify.create({ column1: 'value1' }).into('tableName');
+
+// Read example
+await Crudify.read('*').where('condition').from('tableName');
+
+// Update example
+await Crudify.update({ column1: 'newValue' }).from('tableName').where('condition');
+
+// Delete example
+await Crudify.delete().where('condition').from('tableName');
+```
+
+## Testing
+test.js is included to demonstrate how to test CRUD operations using Crudify. To run the tests, execute:
+
+```
+node test.js
+```
+Make sure to configure your database details in test.js or use environment variables as described in the configuration section.
+
+Contributing
+Contributions to improve Crudify are welcome. Please fork the repository and submit a pull request with your changes.
+
+License
+This project is licensed under the MIT License.
+
+
+### Notes for Customization:
+
+- Replace `https://github.com/yourusername/crudify.git` with the actual URL of your GitHub repository.
+- Modify any sections as needed to more accurately reflect the specifics of your `Crudify` app, such as additional features or different configuration steps.
+- Ensure that the license link at the bottom matches the actual license file in your repository, if you have one.
+
+This README provides a basic structure to help users understand and use your `Crudify` package effectively.
+
+
+
+
